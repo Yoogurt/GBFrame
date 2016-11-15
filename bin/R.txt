@@ -1,3 +1,5 @@
+int attr border_color 0x7f010001
+int attr border_width 0x7f010000
 int color left_press 0x7f040001
 int color title_bar_primary 0x7f040000
 int color white 0x7f040002
@@ -23,3 +25,6 @@ int string app_name 0x7f060000
 int string hello_world 0x7f060001
 int style AppBaseTheme 0x7f070000
 int style AppTheme 0x7f070001
+int[] styleable CircleImageView { 0x7f010000, 0x7f010001 }
+int styleable CircleImageView_border_color 1
+int styleable CircleImageView_border_width 0

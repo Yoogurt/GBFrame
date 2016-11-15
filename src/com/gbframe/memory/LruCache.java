@@ -17,9 +17,7 @@ public abstract class LruCache<K, V> {
 	}
 
 	public boolean put(K key, V val) {
-
 		return internalPut(key, val);
-
 	}
 
 	protected boolean internalPut(K key, V val) {

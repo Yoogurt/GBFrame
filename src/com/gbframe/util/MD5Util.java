@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
@@ -19,17 +18,7 @@ public class MD5Util {
 			md5.update(info);
 			byte[] encryption = md5.digest();
 
-			StringBuffer strBuf = new StringBuffer();
-			for (int i = 0; i < encryption.length; i++) {
-				if (Integer.toHexString(0xff & encryption[i]).length() == 1) {
-					strBuf.append("0").append(
-							Integer.toHexString(0xff & encryption[i]));
-				} else {
-					strBuf.append(Integer.toHexString(0xff & encryption[i]));
-				}
-			}
-
-			return strBuf.toString();
+			return ByteUtil.bytes2Hex(encryption);
 		} catch (NoSuchAlgorithmException e) {
 			return "";
 		}
@@ -59,8 +48,7 @@ public class MD5Util {
 					FileChannel.MapMode.READ_ONLY, 0, file.length());
 			MessageDigest md5 = MessageDigest.getInstance("MD5");
 			md5.update(byteBuffer);
-			BigInteger bi = new BigInteger(1, md5.digest());
-			value = bi.toString(16);
+			value = ByteUtil.bytes2Hex(md5.digest());
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

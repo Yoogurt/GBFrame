@@ -45,11 +45,8 @@ public abstract class BaseActivity extends Activity {
 					tmp.setAccessible(false);
 				} else
 					tmp.set(this, v);
-
 			}
-
 		}
-
 	}
 
 	public final void showToast(String msg, int length, View v) {
@@ -90,5 +87,4 @@ public abstract class BaseActivity extends Activity {
 	public final void showToastl(int res) {
 		showToast(res, Toast.LENGTH_LONG, null);
 	}
-
 }

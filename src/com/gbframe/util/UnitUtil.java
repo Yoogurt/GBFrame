@@ -28,9 +28,6 @@ public class UnitUtil {
 			unit = "B";
 			final_length = length;
 		}
-
 		return final_length + unit;
-
 	}
-
 }

@@ -1,6 +1,6 @@
 package com.gbframe.widget;
 
-import com.gbframe.gbframe.R;
+import com.BB.gbframe.R;
 
 import android.content.Context;
 import android.graphics.Color;
