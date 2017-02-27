@@ -3,6 +3,7 @@ package com.gbframe.component;
 import java.lang.reflect.Field;
 
 import android.app.Activity;
+import android.app.Instrumentation;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -12,23 +13,21 @@ public abstract class BaseActivity extends Activity {
 	@Override
 	protected final void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		initView();
+		setContentView(initView());
 		try {
 			setUpInterface();
 		} catch (IllegalAccessException | IllegalArgumentException e) {
-			RuntimeException ex = new RuntimeException(
-					"unexpected exception occured", e);
+			RuntimeException ex = new RuntimeException("unexpected exception occured", e);
 			throw ex;
 		}
 		setUpView(savedInstanceState);
 	}
 
-	public abstract void initView();
+	public abstract int initView();
 
 	public abstract void setUpView(Bundle saveInstanceState);
 
-	private void setUpInterface() throws IllegalAccessException,
-			IllegalArgumentException {
+	private void setUpInterface() throws IllegalAccessException, IllegalArgumentException {
 
 		Field[] field = getClass().getDeclaredFields();
 
