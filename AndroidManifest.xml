@@ -8,4 +8,12 @@
         android:minSdkVersion="11"
         android:targetSdkVersion="21" />
 
+    <application
+        android:allowBackup="false"
+        android:theme="@style/AppTheme" >
+        
+        
+        
+    </application>
+
 </manifest>

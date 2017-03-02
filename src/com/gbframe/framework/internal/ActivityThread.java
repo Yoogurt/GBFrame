@@ -4,9 +4,12 @@ import java.lang.reflect.Field;
 
 import com.gbframe.util.ReflectUtil;
 
+import android.app.Activity;
+import android.app.Application;
 import android.app.Instrumentation;
-import android.content.Context;
-import android.util.Log;
+import android.content.ContextWrapper;
+import android.os.Bundle;
+import android.view.View;
 
 public class ActivityThread {
 
@@ -18,11 +21,11 @@ public class ActivityThread {
 		this.mMainThread = mMainThread;
 	}
 
-	public static ActivityThread getContextThread(Context ctx) {
-
+	public static ActivityThread getContextThread(ContextWrapper ctx) {
+		
 		if (instance != null)
 			return instance;
-
+		
 		synchronized (ActivityThread.class) {
 
 			if (instance != null)
@@ -39,8 +42,11 @@ public class ActivityThread {
 		return instance;
 	}
 	
-	public static boolean hookInstrumentation(Instrumentation instrumentation){
-		return false;
+	public boolean hookInstrumentation(Instrumentation instrumentation){
+		return ReflectUtil.setField(mMainThread, "mInstrumentation", instrumentation);
 	}
 
+	
+	
+	
 }
