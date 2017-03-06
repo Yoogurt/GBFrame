@@ -17,22 +17,29 @@ public class ReflectUtil {
 
 	public static Field getInstanceField(Object instance, String name) {
 
+		if (instance instanceof Class<?>)
+			return getClassField((Class<?>) instance, name);
+
 		return getClassField(instance.getClass(), name);
 	}
 
 	public static Object getField(Field mField, Object instance) {
 
-		if (mField != null)
-			if (mField.isAccessible())
-				return mField;
-			else
-				try {
-					mField.setAccessible(true);
-					return mField.get(instance);
-				} catch (Exception e) {
-				} finally {
-					mField.setAccessible(false);
-				}
+		if (mField.isAccessible())
+			try {
+				return mField.get(instance);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		else
+			try {
+				mField.setAccessible(true);
+				return mField.get(instance);
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				mField.setAccessible(false);
+			}
 
 		return null;
 
@@ -103,6 +110,7 @@ public class ReflectUtil {
 	 * transform
 	 * 
 	 * @param instance
+	 *            Class<?> for invoke static method
 	 * @param method
 	 * @param parameter
 	 * @return
@@ -111,7 +119,13 @@ public class ReflectUtil {
 
 		if (parameter.length <= 0) {
 
-			Method mMethod = getClassMethod(instance.getClass(), method);
+			Method mMethod;
+
+			if (instance instanceof Class<?>) {
+				mMethod = getClassMethod((Class<?>) instance, method);
+				instance = null;
+			} else
+				mMethod = getClassMethod(instance.getClass(), method);
 
 			try {
 
@@ -142,7 +156,13 @@ public class ReflectUtil {
 		for (int i = 0; i < length; i++)
 			mClasses[i] = getTypeForPrimitive(parameter[i].getClass());
 
-		Method mMethod = getClassMethod(instance.getClass(), method, mClasses);
+		Method mMethod;
+
+		if (instance instanceof Class<?>) {
+			mMethod = getClassMethod((Class<?>) instance, method);
+			instance = null;
+		} else
+			mMethod = getClassMethod(instance.getClass(), method);
 
 		try {
 			if (mMethod != null)

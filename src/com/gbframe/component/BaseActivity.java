@@ -1,6 +1,7 @@
 package com.gbframe.component;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.Instrumentation;
@@ -17,7 +18,7 @@ public abstract class BaseActivity extends Activity {
 		try {
 			setUpInterface();
 		} catch (IllegalAccessException | IllegalArgumentException e) {
-			RuntimeException ex = new RuntimeException("unexpected exception occured", e);
+			RuntimeException ex = new RuntimeException("Unable to instantiate Activity , cause by unable to inject setUpInterface()", e);
 			throw ex;
 		}
 		setUpView(savedInstanceState);
@@ -68,7 +69,7 @@ public abstract class BaseActivity extends Activity {
 			toast.setDuration(length);
 			toast.show();
 		} else
-			Toast.makeText(this, res, length);
+			Toast.makeText(this, res, length).show();
 	}
 
 	public final void showToasts(String msg) {

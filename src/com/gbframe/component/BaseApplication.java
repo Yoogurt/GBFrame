@@ -1,5 +1,6 @@
 package com.gbframe.component;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,16 +11,17 @@ import android.content.BroadcastReceiver;
 
 public class BaseApplication extends Application {
 
-	private boolean hasCallSuperOnCreate = false;
-	private List<BroadcastReceiver> mBroadCastReceivers = new ArrayList<>();
-	
-	@Override
-	public void onCreate() {
-		super.onCreate();
+	private static WeakReference<BaseApplication> mApplication;
+
+	public BaseApplication() {
+		mApplication = new WeakReference<BaseApplication>(this);
 	}
 	
-	
-	
+	public BaseApplication getInstance(){
+		return mApplication.get();
+	}
+
+	private List<BroadcastReceiver> mBroadCastReceivers = new ArrayList<>();
 
 
 }

@@ -12,27 +12,23 @@ import android.widget.Toast;
 public abstract class BaseFragment extends Fragment {
 
 	@Override
-	public final View onCreateView(LayoutInflater inflater,
-			ViewGroup container, Bundle savedInstanceState) {
-		
+	public final View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
 		View v = initView(inflater, container, savedInstanceState);
 
 		try {
 			setUpInterface(v);
 		} catch (IllegalAccessException | IllegalArgumentException e) {
-			RuntimeException ex = new RuntimeException(
-					"unexpected exception occured", e);
+			RuntimeException ex = new RuntimeException("Unable to instantiate Fragment , cause by unable to inject setUpInterface()", e);
 			throw ex;
 		}
 
 		return v;
 	}
 
-	public abstract View initView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState);
+	public abstract View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
 
-	private void setUpInterface(View view) throws IllegalAccessException,
-			IllegalArgumentException {
+	private void setUpInterface(View view) throws IllegalAccessException, IllegalArgumentException {
 
 		Field[] field = getClass().getDeclaredFields();
 
@@ -76,7 +72,7 @@ public abstract class BaseFragment extends Fragment {
 			toast.setDuration(length);
 			toast.show();
 		} else
-			Toast.makeText(getActivity(), res, length);
+			Toast.makeText(getActivity(), res, length).show();
 	}
 
 	public final void showToasts(String msg) {

@@ -12,11 +12,12 @@ import android.Manifest.permission;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.net.wifi.WifiManager;
+import android.os.Binder;
 
 public class NetUtil {
 
 	public static boolean isWifiEnableSafely(Context ctx) {
-
+		
 		if (UtilGlobal.sdkVersion > 16)
 			return ctx.checkSelfPermission(permission.ACCESS_WIFI_STATE) == PackageManager.PERMISSION_GRANTED
 					&& ctx.getSystemService(WifiManager.class).isWifiEnabled();
@@ -80,7 +81,6 @@ public class NetUtil {
 			}
 
 			mMulticastSocket.close();
-
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
