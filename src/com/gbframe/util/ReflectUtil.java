@@ -40,8 +40,12 @@ public class ReflectUtil {
 			} finally {
 				mField.setAccessible(false);
 			}
-
 		return null;
+	}
+
+	public static Object getInstanceFieldObject(Object instance, String name) {
+
+		return getField(getInstanceField(instance, name), instance);
 
 	}
 

@@ -1,12 +1,13 @@
 package com.gbframe.component;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
+import com.gbframe.framework.internal.ActivityThread;
+import com.gbframe.framework.internal.BroadCastReceiverManager;
+import com.gbframe.framework.internal.ContextImpl;
+
 import android.app.Application;
-import android.app.Service;
 import android.content.BroadcastReceiver;
 
 public class BaseApplication extends Application {
@@ -16,12 +17,29 @@ public class BaseApplication extends Application {
 	public BaseApplication() {
 		mApplication = new WeakReference<BaseApplication>(this);
 	}
-	
-	public BaseApplication getInstance(){
+
+	public BaseApplication getInstance() {
 		return mApplication.get();
 	}
 
-	private List<BroadcastReceiver> mBroadCastReceivers = new ArrayList<>();
+	public ActivityThread currentMainThread() {
+		return ActivityThread.getInstance();
+	}
 
+	public ContextImpl getBaseOuterContext() {
+		return ContextImpl.getInstance(this);
+	}
+
+	public List<BroadcastReceiver> getAllRegisterBroadcast() {
+		return BroadCastReceiverManager.getCurrentRegisterBroadcastReceiver(this);
+	}
+
+	/*
+	 * it didn't work
+	 */
+	@Deprecated
+	public List<BroadcastReceiver> getAllUnregisterBroadcast() {
+		return BroadCastReceiverManager.getUnregisterBroadcastReceiver(this);
+	}
 
 }

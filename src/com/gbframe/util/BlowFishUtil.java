@@ -3,6 +3,7 @@ package com.gbframe.util;
 import java.security.MessageDigest;
 import java.util.Random;
 
+@SuppressWarnings("all")
 public class BlowFishUtil {
 	private BlowfishCBC m_bfish;
 	private static Random m_rndGen = new Random();

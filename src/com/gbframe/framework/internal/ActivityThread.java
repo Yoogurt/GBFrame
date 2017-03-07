@@ -5,7 +5,6 @@ import java.lang.reflect.Field;
 import com.gbframe.util.ReflectUtil;
 
 import android.app.Instrumentation;
-import android.content.ContextWrapper;
 
 public class ActivityThread {
 
@@ -24,8 +23,8 @@ public class ActivityThread {
 		this.mMainThread = mMainThread;
 	}
 
-	public static ActivityThread getContextThread() {
-
+	public static ActivityThread getInstance() {
+		
 		if (sCurrentActivityThread != null)
 			return sCurrentActivityThread;
 
@@ -43,10 +42,10 @@ public class ActivityThread {
 
 		return sCurrentActivityThread;
 	}
-	
-	public Object getContext(){
+
+	public Object getContext() {
 		return mMainThread;
-	} 
+	}
 
 	public boolean hookInstrumentation(Instrumentation instrumentation) {
 		return ReflectUtil.setField(mMainThread, "mInstrumentation", instrumentation);

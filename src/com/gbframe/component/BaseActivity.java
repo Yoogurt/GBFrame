@@ -1,10 +1,8 @@
 package com.gbframe.component;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 
 import android.app.Activity;
-import android.app.Instrumentation;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
