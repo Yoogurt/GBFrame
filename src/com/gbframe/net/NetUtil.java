@@ -26,7 +26,7 @@ public class NetUtil {
 	}
 	
 
-	abstract class MulticastServerCallback {
+	public abstract class MulticastServerCallback {
 
 		private MulticastSocket ms;
 

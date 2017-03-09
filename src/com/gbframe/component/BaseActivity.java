@@ -3,6 +3,9 @@ package com.gbframe.component;
 import java.lang.reflect.Field;
 
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -16,7 +19,8 @@ public abstract class BaseActivity extends Activity {
 		try {
 			setUpInterface();
 		} catch (IllegalAccessException | IllegalArgumentException e) {
-			RuntimeException ex = new RuntimeException("Unable to instantiate Activity , cause by unable to inject setUpInterface()", e);
+			RuntimeException ex = new RuntimeException(
+					"Unable to instantiate Activity , cause by unable to inject setUpInterface()", e);
 			throw ex;
 		}
 		setUpView(savedInstanceState);
@@ -55,7 +59,7 @@ public abstract class BaseActivity extends Activity {
 			toast.setDuration(length);
 			toast.show();
 		} else
-			Toast.makeText(this, msg, length);
+			Toast.makeText(this, msg, length).show();
 	}
 
 	public final void showToast(int res, int length, View v) {
@@ -84,5 +88,20 @@ public abstract class BaseActivity extends Activity {
 
 	public final void showToastl(int res) {
 		showToast(res, Toast.LENGTH_LONG, null);
+	}
+
+	@Override
+	public void startActivities(Intent[] intents) {
+		throw new UnsupportedOperationException();
+	}
+	
+	@Override
+	public void startActivity(Intent intent) {
+		if (BaseApplication.getInstance().isUnregisterActivity()) {
+			ComponentName cn = intent.getComponent();
+			intent = new Intent(this, BaseApplication.mLauncherActivity.getClass());
+			intent.putExtra(HookInstrumentation.HOOK_MARK, cn.getClassName());
+		}
+		super.startActivity(intent);
 	}
 }

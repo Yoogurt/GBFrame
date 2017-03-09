@@ -9,16 +9,22 @@ import com.gbframe.framework.internal.ContextImpl;
 
 import android.app.Application;
 import android.content.BroadcastReceiver;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 
 public class BaseApplication extends Application {
 
 	private static WeakReference<BaseApplication> mApplication;
 
+	private static final String UNREGISTER_ACTIVITY = "gbframe.unregister_activity";
+	private static boolean mUnregisterActivity = false;
+	static BaseActivity mLauncherActivity;
+
 	public BaseApplication() {
 		mApplication = new WeakReference<BaseApplication>(this);
 	}
 
-	public BaseApplication getInstance() {
+	public static BaseApplication getInstance() {
 		return mApplication.get();
 	}
 
@@ -40,6 +46,24 @@ public class BaseApplication extends Application {
 	@Deprecated
 	public List<BroadcastReceiver> getAllUnregisterBroadcast() {
 		return BroadCastReceiverManager.getUnregisterBroadcastReceiver(this);
+	}
+
+	public boolean isUnregisterActivity() {
+		return mUnregisterActivity;
+	}
+
+	@Override
+	public void onCreate() {
+		super.onCreate();
+
+		try {
+			if (getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA).metaData
+					.getBoolean(UNREGISTER_ACTIVITY)) {
+				mUnregisterActivity = true;
+				currentMainThread().hookInstrumentation(new HookInstrumentation());
+			}
+		} catch (NameNotFoundException e) {
+		}
 	}
 
 }
